@@ -1,7 +1,6 @@
 package com.nokinori.reactive.rabbitmq.converter
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.nokinori.reactive.rabbitmq.utils.logger
 import com.rabbitmq.client.AMQP
 import com.rabbitmq.client.Delivery
 import org.springframework.util.MimeTypeUtils

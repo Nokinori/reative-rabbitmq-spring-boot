@@ -1,6 +1,6 @@
 package com.nokinori.reactive.rabbitmq
 
-import com.nokinori.reactive.rabbitmq.container.*
+import com.nokinori.reactive.rabbitmq.container.SimpleReactiveMessageContainer
 import com.nokinori.reactive.rabbitmq.container.core.AckMode
 import com.nokinori.reactive.rabbitmq.container.core.ReactiveMessageContainer
 import com.nokinori.reactive.rabbitmq.container.core.ReactiveMessageListener
