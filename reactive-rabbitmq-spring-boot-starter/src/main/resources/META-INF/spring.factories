@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.nokinori.reactive.rabbitmq.boot.autoconfigure.ReactiveRabbitMqAutoConfiguration,\
+  com.nokinori.reactive.rabbitmq.boot.autoconfigure.actuate.autoconfigure.RabbitReactiveHealthContributorAutoConfiguration
