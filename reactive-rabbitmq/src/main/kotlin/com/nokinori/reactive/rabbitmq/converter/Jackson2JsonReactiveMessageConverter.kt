@@ -11,6 +11,10 @@ import reactor.rabbitmq.OutboundMessage
 internal const val CONTENT_TYPE_HEADER = "__ContentTypeId__"
 internal const val BODY_CLASS_NAME_HEADER = "__TypeId__"
 
+/**
+ * Json converter implemented by Jackson [ObjectMapper].
+ * Support integration with other spring services with [CONTENT_TYPE_HEADER] and [BODY_CLASS_NAME_HEADER].
+ */
 open class Jackson2JsonReactiveMessageConverter(private val objectMapper: ObjectMapper) : ReactiveMessageConverter {
 
     override fun <T> fromDelivery(delivery: Delivery, eventType: Class<T>): Mono<T> = Mono

@@ -12,6 +12,9 @@ import reactor.rabbitmq.BindingSpecification
 import reactor.rabbitmq.ExchangeSpecification
 import reactor.rabbitmq.QueueSpecification
 
+/**
+ * Declares all beans of [QueueSpecification], [ExchangeSpecification], [BindingSpecification] found in [ApplicationContext].
+ */
 class DeclarableAutoInitialization(
     private val rabbitMqAdmin: ReactiveRabbitMqAdmin,
     private val ignoreDeclarationExceptions: Boolean = false

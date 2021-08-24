@@ -7,6 +7,12 @@ import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toMono
 import reactor.rabbitmq.AcknowledgableDelivery
 
+/**
+ * Handles messages with [eventHandler].
+ * Maps events with [messageConverter] to [eventType].
+ *
+ * Ack/nack is important here. Otherwise, message hangs with unacked status.
+ */
 open class TypedManualAcknowledgmentReactiveMessageListener<T>(
     private val eventHandler: (T) -> Mono<*>,
     private val eventType: Class<T>,
