@@ -35,7 +35,7 @@ class TypedRetryableManualAcknowledgmentReactiveMessageListener<T>(
     messageConverter,
     reactiveRabbitMqHooks
 ) {
-    override val onExceptionResume: (Throwable, Delivery, Any?) -> Mono<Void> =
+    override var onExceptionResume: (Throwable, Delivery, Any?) -> Mono<Void> =
         { throwable: Throwable, delivery: Delivery, event: Any? ->
             log.warn(throwable) { "Exception in retry" }
             val retries = delivery.properties.headers.retryHeader()

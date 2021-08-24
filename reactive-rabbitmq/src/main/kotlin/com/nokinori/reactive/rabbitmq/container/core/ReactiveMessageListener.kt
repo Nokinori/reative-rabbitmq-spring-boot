@@ -29,11 +29,20 @@ interface ReactiveAcknowledgableMessageListener : ReactiveMessageListener {
  * Provide default implementation for message handler and error handler.
  */
 abstract class AbstractMessageListener : ReactiveAcknowledgableMessageListener {
-    protected open val onExceptionResume = { _: Throwable, _: Delivery, _: Any? ->
+
+    /**
+     * Lambda that will be executed on every exception.
+     */
+    open var onExceptionResume = { _: Throwable, delivery: Delivery, _: Any? ->
+        if (delivery is AcknowledgableDelivery) {
+            delivery.nack(false)
+        }
         Mono.empty<Void>()
     }
 
-    override fun onMessage(delivery: AcknowledgableDelivery): Mono<Void> = Mono.empty()
+    override fun onMessage(delivery: AcknowledgableDelivery): Mono<Void> = Mono.fromRunnable {
+        delivery.ack()
+    }
 
     companion object {
         @JvmStatic
