@@ -6,6 +6,9 @@ import com.nokinori.reactive.rabbitmq.props.EventConsumerConfiguration
 import reactor.core.publisher.Mono
 import java.util.*
 
+/**
+ * Extension to [ReactiveRabbitMqBinder.bindWithAutoAck] with reified type.
+ */
 inline fun <reified T : Any> ReactiveRabbitMqBinder.bindWithAutoAck(
     exchange: String,
     config: EventConsumerConfiguration,
@@ -13,6 +16,9 @@ inline fun <reified T : Any> ReactiveRabbitMqBinder.bindWithAutoAck(
 ) =
     bindWithAutoAck(exchange, config, T::class.java, eventHandler)
 
+/**
+ * Extension to [ReactiveRabbitMqBinder.bindWithManualAck] with reified type.
+ */
 inline fun <reified T : Any> ReactiveRabbitMqBinder.bindWithManualAck(
     exchange: String,
     config: EventConsumerConfiguration,
@@ -20,6 +26,9 @@ inline fun <reified T : Any> ReactiveRabbitMqBinder.bindWithManualAck(
 ) =
     bindWithManualAck(exchange, config, T::class.java, eventHandler)
 
+/**
+ * Extension to [ReactiveRabbitMqBinder.bindWithManualAckAndRetry] with reified type.
+ */
 inline fun <reified T : Any> ReactiveRabbitMqBinder.bindWithManualAckAndRetry(
     exchange: String,
     config: EventConsumerConfiguration,

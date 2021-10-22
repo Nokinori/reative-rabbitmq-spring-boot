@@ -5,10 +5,18 @@ import com.rabbitmq.client.Delivery
 import reactor.core.publisher.Mono
 import reactor.rabbitmq.AcknowledgableDelivery
 
+/**
+ * Listener interface for consuming delivery from RabbitMq.
+ * Messages is acknowledged automatically.
+ */
 interface ReactiveMessageListener {
     fun onMessage(delivery: Delivery): Mono<Void>
 }
 
+/**
+ * Listener interface for consuming delivery from RabbitMq.
+ * Messages is acknowledged manually!
+ */
 interface ReactiveAcknowledgableMessageListener : ReactiveMessageListener {
     fun onMessage(delivery: AcknowledgableDelivery): Mono<Void>
     override fun onMessage(delivery: Delivery): Mono<Void> {
@@ -16,12 +24,25 @@ interface ReactiveAcknowledgableMessageListener : ReactiveMessageListener {
     }
 }
 
+/**
+ * Basic class for consuming delivery from RabbitMq.
+ * Provide default implementation for message handler and error handler.
+ */
 abstract class AbstractMessageListener : ReactiveAcknowledgableMessageListener {
-    protected open val onExceptionResume = { _: Throwable, _: Delivery, _: Any? ->
+
+    /**
+     * Lambda that will be executed on every exception.
+     */
+    open var onExceptionResume = { _: Throwable, delivery: Delivery, _: Any? ->
+        if (delivery is AcknowledgableDelivery) {
+            delivery.nack(false)
+        }
         Mono.empty<Void>()
     }
 
-    override fun onMessage(delivery: AcknowledgableDelivery): Mono<Void> = Mono.empty()
+    override fun onMessage(delivery: AcknowledgableDelivery): Mono<Void> = Mono.fromRunnable {
+        delivery.ack()
+    }
 
     companion object {
         @JvmStatic

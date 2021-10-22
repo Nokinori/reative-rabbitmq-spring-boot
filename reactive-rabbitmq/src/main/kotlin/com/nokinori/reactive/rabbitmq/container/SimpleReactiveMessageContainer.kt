@@ -10,6 +10,9 @@ import reactor.rabbitmq.ConsumeOptions
 import reactor.rabbitmq.Receiver
 import javax.annotation.PostConstruct
 
+/**
+ * Simple container that holds message listener.
+ */
 class SimpleReactiveMessageContainer(
     receiver: Receiver,
     queueNames: List<String>,
@@ -30,6 +33,12 @@ class SimpleReactiveMessageContainer(
     }
 
 
+    /**
+     * Receive messages depends on [ackMode] through [receiver].
+     *
+     * It's possible for user to use [AckMode.MANUAL] and provide not AcknowledgableMessageListener.
+     * Then basic acknowledge will be done for each message.
+     */
     @Suppress("ReactiveStreamsUnusedPublisher")
     override fun receive() = when (ackMode) {
         AUTO -> consumeAutoAck()

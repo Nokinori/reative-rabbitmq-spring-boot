@@ -3,6 +3,9 @@ package com.nokinori.reactive.rabbitmq.decorator
 import com.rabbitmq.client.Delivery
 import reactor.rabbitmq.OutboundMessage
 
+/**
+ * NOOP hooks.
+ */
 open class AbstractReactiveRabbitMqHooks : ReactiveRabbitMqHooks {
     override fun onReceive(delivery: Delivery) {
         //noop
@@ -13,7 +16,7 @@ open class AbstractReactiveRabbitMqHooks : ReactiveRabbitMqHooks {
     }
 
     override fun onSendError(it: Throwable) {
-       //noop
+        //noop
     }
 
     override fun onReceiveError(throwable: Throwable, delivery: Delivery) {

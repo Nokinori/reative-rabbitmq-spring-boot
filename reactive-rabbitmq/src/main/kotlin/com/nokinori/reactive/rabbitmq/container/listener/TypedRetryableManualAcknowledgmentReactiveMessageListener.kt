@@ -9,6 +9,18 @@ import reactor.core.publisher.Mono
 import reactor.core.scheduler.Schedulers
 import java.time.Duration
 
+/**
+ * A message processing will be retried on any `Throwable`. When error occurred we check `X-RETRIES-COUNT` header of
+ * message and then:
+ *
+ * If retries not exceed - ack, increment counter in header, delay in separate thread and send message in the same queue.
+ * If retries exceed and dlq config not specified - nack, log and skip message.
+ * If retries exceed and dql config is specified - nack, log and send to queue from dlq config.
+ *
+ * Default retries logic do not preserve order of incoming messages!
+ * If long retry delay specified then messages can be lost on service shotdown!
+ * BE CAREFUL!
+ */
 class TypedRetryableManualAcknowledgmentReactiveMessageListener<T>(
     eventHandler: (T) -> Mono<*>,
     eventType: Class<T>,
@@ -23,7 +35,7 @@ class TypedRetryableManualAcknowledgmentReactiveMessageListener<T>(
     messageConverter,
     reactiveRabbitMqHooks
 ) {
-    override val onExceptionResume: (Throwable, Delivery, Any?) -> Mono<Void> =
+    override var onExceptionResume: (Throwable, Delivery, Any?) -> Mono<Void> =
         { throwable: Throwable, delivery: Delivery, event: Any? ->
             log.warn(throwable) { "Exception in retry" }
             val retries = delivery.properties.headers.retryHeader()

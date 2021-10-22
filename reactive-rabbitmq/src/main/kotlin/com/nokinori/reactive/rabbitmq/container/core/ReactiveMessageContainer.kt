@@ -10,6 +10,9 @@ import reactor.rabbitmq.Receiver
 import reactor.util.retry.Retry
 import java.time.Duration
 
+/**
+ * Maintain all lifecycle of container. See more [SmartLifecycle].
+ */
 abstract class ReactiveMessageContainer(
     protected val receiver: Receiver,
     protected val queueNames: List<String>
@@ -24,6 +27,9 @@ abstract class ReactiveMessageContainer(
 
     abstract fun receive(): Flux<Void>
 
+    /**
+     * Set [delayPublisher] that will be executed before container starts.
+     */
     fun delayBeforeStartFor(delayPublisher: Publisher<*>) = apply {
         this.delayPublisher = delayPublisher
     }

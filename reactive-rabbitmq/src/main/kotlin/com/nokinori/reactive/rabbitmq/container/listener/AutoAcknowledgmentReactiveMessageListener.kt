@@ -5,6 +5,11 @@ import com.nokinori.reactive.rabbitmq.decorator.ReactiveRabbitMqHooks
 import com.rabbitmq.client.Delivery
 import reactor.core.publisher.Mono
 
+/**
+ * Handles message with [eventHandler].
+ *
+ * No need of ack/nack here.
+ */
 class AutoAcknowledgmentReactiveMessageListener(
     private val eventHandler: () -> Mono<*>,
     private val reactiveRabbitMqHooks: ReactiveRabbitMqHooks
